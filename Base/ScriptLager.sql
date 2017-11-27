@@ -2,52 +2,50 @@ CREATE DATABASE LAGER DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 
 USE LAGER;
 
-CREATE TABLE Administrador (
-    id INT NOT NULL AUTO_INCREMENT,
-    nombre VARCHAR(255) NULL,
-    clave BLOB NULL,
-    PRIMARY KEY (id)
-);
-
-CREATE TABLE DatosCliente(
+CREATE TABLE Usuario(
 id INT NOT NULL AUTO_INCREMENT,
-    Cedula VARCHAR(14) NULL UNIQUE,
+    idUsuario VARCHAR(14) NULL UNIQUE,
     Nombres VARCHAR(255)NULL,
 	Apellidos VARCHAR(255)NULL,
 Direccion VARCHAR(259) NULL,
 PRIMARY KEY (id)
 );
-CREATE TABLE Usuario (
-    idCliente INT NOT NULL AUTO_INCREMENT,
-    nombre VARCHAR(255) NULL UNIQUE,
+CREATE TABLE Cuenta (
+    idCuenta INT NOT NULL AUTO_INCREMENT,
+    idTipoUsuario VARCHAR(15) NULL , 
+	nombre VARCHAR(255) NULL UNIQUE,
     clave BLOB NULL,
-PRIMARY KEY (idCliente),
+PRIMARY KEY (idCuenta),
     CONSTRAINT FK_User FOREIGN KEY (nombre)
-    REFERENCES DatosCliente(Cedula)
+    REFERENCES Usuario(idUsuario)
 );
 CREATE TABLE Productos(
 idProducto INT NOT NULL AUTO_INCREMENT,
 Descripcion VARCHAR(255) NULL,
 Marca VARCHAR(50) NULL,
 Precio double NULL,
-Talla INT NULL,
+idTalla INT NULL UNIQUE,
 PRIMARY KEY (idProducto)
 );
-
+CREATE TABLE DetalleTalla(
+idTalla INT NULL unique ,
+Talla VARCHAR (20) NULL,
+CONSTRAINT FK_Talla FOREIGN KEY (idTalla)
+    REFERENCES Productos(idTalla)
+);
 CREATE TABLE Factura(
-Fecha DATE NOT NULL,
-Cedula VARCHAR(14) NULL UNIQUE,
 idFactura INT NOT NULL AUTO_INCREMENT,
-idProducto INT NULL,
-IVA DOUBLE NOT NULL,
-Total DOUBLE NOT NULL,
-PRIMARY KEY(idFactura),
-CONSTRAINT FK_Cliente FOREIGN KEY (Cedula)
-    REFERENCES DatosCliente(Cedula),
-CONSTRAINT FK_Facture FOREIGN KEY (idProducto)
-    REFERENCES Productos(idProducto)
+Fecha DATE NOT NULL,
+idUsuario VARCHAR(14) NULL UNIQUE,
+PRIMARY KEY(idFactura)
 
 );
-
-INSERT INTO Usuario (nombre,clave) VALUES ('Antonio',aes_encrypt('mi clave ultra secreta','SECRETO'));
-INSERT INTO Administrador (nombre,clave) VALUES ('José',aes_encrypt('mi clave ultra secreta','SECRETO'));
+CREATE TABLE DetalleFactura(
+idFactura INT NOT NULL AUTO_INCREMENT,
+idProducto INT NULL UNIQuE,
+Cantidad int null,
+CONSTRAINT FK_Facture FOREIGN KEY (idProducto)
+    REFERENCES Productos(idProducto),
+CONSTRAINT FK_Facture2 FOREIGN KEY (idFactura)
+    REFERENCES Factura(idFactura)
+);
