@@ -37,8 +37,9 @@ CREATE TABLE Factura(
 idFactura INT NOT NULL AUTO_INCREMENT,
 Fecha DATE NOT NULL,
 idUsuario VARCHAR(14) NULL UNIQUE,
-PRIMARY KEY(idFactura)
-
+PRIMARY KEY(idFactura),
+CONSTRAINT FK_FactureUser FOREIGN KEY (idUsuario)
+REFERENCES Usuario(idUsuario)
 );
 CREATE TABLE DetalleFactura(
 idFactura INT NOT NULL AUTO_INCREMENT,
