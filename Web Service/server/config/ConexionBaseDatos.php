@@ -4,8 +4,8 @@ class ConexionBaseDatos {
     private static $array = array();
     public static function DatosConexiones(){
         $array = array();
-        $array[] = new DatosConexion("pruebasITSY","172.16.0.9","ignug","prueba","12345678");
-        $array[] = new DatosConexion("local","localhost","ignug","prueba","12345678");
+        $array[] = new DatosConexion("local","localhost","LAGER","root","1234");
+        $array[] = new DatosConexion("cpanel","sql313.byethost7.com","b7_21140755_LAGER","b7_21140755","jose12345");
         return $array;
     }
 }
